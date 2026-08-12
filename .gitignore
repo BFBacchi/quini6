@@ -1,0 +1,50 @@
+# ══════════════════════════════════════════════════════════
+# Quini6 Analytics — .gitignore
+# ══════════════════════════════════════════════════════════
+
+# ─── Environment ────────────────────────────────────────
+docker/.env
+*.env.local
+
+# ─── Java / Maven ──────────────────────────────────────
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+
+# ─── IDE ────────────────────────────────────────────────
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ─── Node / Frontend ───────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.vite/
+
+# ─── Docker ─────────────────────────────────────────────
+docker/pgdata/
+docker/esdata/
+docker/rabbitmqdata/
+
+# ─── Logs ───────────────────────────────────────────────
+*.log
+logs/
+
+# ─── Test / Coverage ───────────────────────────────────
+backend/test-results/
+frontend/test-results/
+frontend/playwright-report/
+frontend/coverage/
+backend/.jacoco/
+
+# ─── OS ─────────────────────────────────────────────────
+.DS_Store
+ehthumbs.db

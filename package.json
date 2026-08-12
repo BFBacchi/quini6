@@ -1,0 +1,33 @@
+{
+  "name": "quini6-analytics",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plataforma de análisis estadístico histórico del Quini 6 — SOLO ANÁLISIS DESCRIPTIVO, NO PREDICCIÓN",
+  "scripts": {
+    "start": "bash scripts/start.sh",
+    "start:debug": "cd docker && docker compose --env .env -f docker-compose.yml -f docker-compose.override.yml --profile debug up --build",
+    "stop": "cd docker && docker compose --env .env down",
+    "stop:clean": "cd docker && docker compose --env .env down -v",
+    "logs": "cd docker && docker compose --env .env logs -f --tail=100",
+    "test:backend": "cd backend && ./mvnw test",
+    "test:frontend": "cd frontend && npm test",
+    "test:e2e": "cd frontend && npx playwright test",
+    "lint:backend": "cd backend && ./mvnw spotless:check",
+    "lint:frontend": "cd frontend && npm run lint",
+    "format:backend": "cd backend && ./mvnw spotless:apply",
+    "format:frontend": "cd frontend && npm run format",
+    "db:migrate": "cd backend && ./mvnw flyway:migrate -Dspring.profiles.active=docker",
+    "db:info": "cd backend && ./mvnw flyway:info -Dspring.profiles.active=docker"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "quini6",
+    "loteria",
+    "estadistica",
+    "analytics"
+  ],
+  "license": "MIT"
+}

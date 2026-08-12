@@ -1,0 +1,34 @@
+# ══════════════════════════════════════════════════════════
+# Quini6 Analytics — Dev Overrides (Hot-Reload)
+# Automatically loaded by `docker compose up`
+# Usage: docker compose up --build
+# ══════════════════════════════════════════════════════════
+
+services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+      target: dev
+    volumes:
+      - ../backend/src:/app/src
+      - ../backend/pom.xml:/app/pom.xml
+      - ../backend/mvnw:/app/mvnw
+      - ../backend/.mvn:/app/.mvn
+    environment:
+      SPRING_DEVTOOLS_RESTART_ENABLED: "true"
+      LOGGING_LEVEL_COM_QUINI6: DEBUG
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      target: dev
+    volumes:
+      - ../frontend/src:/app/src
+      - ../frontend/index.html:/app/index.html
+      - ../frontend/vite.config.ts:/app/vite.config.ts
+      - ../frontend/tsconfig.json:/app/tsconfig.json
+    ports:
+      - "3000:3000"
+    command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

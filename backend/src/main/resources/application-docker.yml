@@ -1,0 +1,23 @@
+# ══════════════════════════════════════════════════════════
+# Docker profile overrides
+# ══════════════════════════════════════════════════════════
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${SPRING_DATASOURCE_HOST:postgres}:${SPRING_DATASOURCE_PORT:5432}/${SPRING_DATASOURCE_DB:quini6}
+
+  elasticsearch:
+    uris: http://${SPRING_ELASTICSEARCH_HOST:elasticsearch}:${SPRING_ELASTICSEARCH_PORT:9200}
+
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:rabbitmq}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+
+quini6:
+  api:
+    primary-url: ${QUINI6_API_PRIMARY:http://host.docker.internal:5000}
+    secondary-url: ${QUINI6_API_SECONDARY:http://host.docker.internal:5001}
+
+logging:
+  level:
+    com.quini6.analytics: DEBUG

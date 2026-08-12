@@ -1,0 +1,43 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  flyway:
+    enabled: true
+  elasticsearch:
+    uris: http://localhost:9200
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  data:
+    elasticsearch:
+      repositories:
+        enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure: include=health
+
+jwt:
+  secret: test-only-256-bit-key-for-testing-must-be-long-enough
+  expiration-ms: 86400000
+
+quini6:
+  api:
+    primary-url: http://localhost:9999
+    secondary-url: http://localhost:9999
+    endpoints:
+      sorteos: /v1/q6r/sorteos
+      sorteo: /v1/q6r/sorteo/{numeroSorteo}
+      todoslosnumeros: /v1/q6r/todoslosnumeros
+
+logging:
+  level:
+    com.quini6.analytics: DEBUG
