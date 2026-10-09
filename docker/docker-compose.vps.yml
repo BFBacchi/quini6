@@ -1,0 +1,37 @@
+# ══════════════════════════════════════════════════════════
+# Quini6 Analytics — VPS Override (Easypanel / Producción)
+# NO publica puertos a internet: todo queda en la red interna
+# del proyecto. El proxy de Easypanel enruta el dominio al
+# contenedor frontend (nginx, puerto 80).
+#
+# Usage (desde docker/):
+#   docker compose -f docker-compose.yml -f docker-compose.vps.yml up --build -d
+# En Easypanel: configurar ambos archivos en el servicio Compose.
+# ══════════════════════════════════════════════════════════
+
+services:
+  postgres:
+    ports: !reset []
+
+  elasticsearch:
+    ports: !reset []
+
+  rabbitmq:
+    ports: !reset []
+
+  backend:
+    ports: !reset []
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  prometheus:
+    ports: !reset []
+
+  grafana:
+    ports: !reset []
+
+  kibana:
+    ports: !reset []
+
+  pgadmin:
+    ports: !reset []

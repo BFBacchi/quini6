@@ -10,16 +10,16 @@ services:
     container_name: q6-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-quini6}
+      POSTGRES_USER: ${POSTGRES_USER:-quini6}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-quini6_dev_2026}
       POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "${POSTGRES_HOST_PORT:-5434}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-quini6} -d ${POSTGRES_DB:-quini6}"]
       interval: 5s
       timeout: 3s
       retries: 10
@@ -50,8 +50,8 @@ services:
     container_name: q6-rabbitmq
     restart: unless-stopped
     environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-quini6}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-quini6_dev_2026}
     ports:
       - "${RABBITMQ_PORT:-5672}:5672"
       - "${RABBITMQ_MGMT_PORT:-15672}:15672"
@@ -80,20 +80,20 @@ services:
         condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-docker}
-      SPRING_DATASOURCE_URL: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
-      SPRING_ELASTICSEARCH_URIS: http://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}
-      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST}
-      SPRING_RABBITMQ_PORT: ${RABBITMQ_PORT}
-      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
-      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-      JWT_SECRET: ${JWT_SECRET}
-      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS}
-      QUINI6_API_PRIMARY: ${QUINI6_API_PRIMARY}
-      QUINI6_API_SECONDARY: ${QUINI6_API_SECONDARY}
-      ADMIN_USERNAME: ${ADMIN_USERNAME}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://${POSTGRES_HOST:-postgres}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-quini6}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-quini6}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-quini6_dev_2026}
+      SPRING_ELASTICSEARCH_URIS: http://${ELASTICSEARCH_HOST:-elasticsearch}:${ELASTICSEARCH_PORT:-9200}
+      SPRING_RABBITMQ_HOST: ${RABBITMQ_HOST:-rabbitmq}
+      SPRING_RABBITMQ_PORT: ${RABBITMQ_PORT:-5672}
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER:-quini6}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-quini6_dev_2026}
+      JWT_SECRET: ${JWT_SECRET:-dev-only-change-in-prod-256bit-key-here}
+      JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS:-86400000}
+      QUINI6_API_PRIMARY: ${QUINI6_API_PRIMARY:-http://host.docker.internal:5000}
+      QUINI6_API_SECONDARY: ${QUINI6_API_SECONDARY:-https://node-quini6.onrender.com}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
     ports:
       - "${BACKEND_PORT:-8082}:8082"
     healthcheck:
@@ -187,7 +187,7 @@ services:
       elasticsearch:
         condition: service_healthy
     environment:
-      ELASTICSEARCH_HOSTS: http://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT}
+      ELASTICSEARCH_HOSTS: http://${ELASTICSEARCH_HOST:-elasticsearch}:${ELASTICSEARCH_PORT:-9200}
       SERVER_NAME: quini6-kibana
     ports:
       - "5601:5601"
