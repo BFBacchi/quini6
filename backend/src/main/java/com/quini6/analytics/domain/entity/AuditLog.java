@@ -1,6 +1,8 @@
 package com.quini6.analytics.domain.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import java.time.Instant;
 
 @Entity
@@ -27,9 +29,11 @@ public class AuditLog {
     private java.util.UUID entidadId;
 
     @Column(name = "detalle_json", columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private String detalleJson;
 
     @Column(name = "diff_json", columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
     private String diffJson;
 
     @PrePersist

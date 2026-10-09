@@ -7,6 +7,8 @@ import com.quini6.analytics.domain.repository.ResultadoRepository;
 import com.quini6.analytics.domain.repository.SorteoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
@@ -50,6 +52,15 @@ public class SorteoIndexService {
             );
             ops.create(mapping);
             log.info("Índice {} creado en Elasticsearch", INDEX_NAME);
+        }
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void crearIndiceAlArrancar() {
+        try {
+            crearIndiceSiNoExiste();
+        } catch (Exception e) {
+            log.warn("No se pudo crear índice {} al arrancar: {}", INDEX_NAME, e.getMessage());
         }
     }
 

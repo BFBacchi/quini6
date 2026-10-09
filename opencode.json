@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md"],
+  "skills": {
+    "paths": [".opencode/skills"]
+  },
+  "agent": {
+    "security-audit": {
+      "description": "Comprehensive security auditor for the Quini6 Analytics codebase. Scans for hardcoded secrets, vulnerable dependencies, authentication flaws, Docker misconfigurations, and API security issues. Produces prioritized remediation reports.",
+      "mode": "subagent",
+      "permission": {
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow",
+        "bash": "ask",
+        "edit": "deny",
+        "webfetch": "allow",
+        "websearch": "allow"
+      }
+    }
+  }
+}

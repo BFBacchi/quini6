@@ -6,16 +6,15 @@
 # ─── Build stage ─────────────────────────────────────────
 FROM eclipse-temurin:21-jdk-jammy AS build
 WORKDIR /app
+RUN apt-get update && apt-get install -y maven unzip && rm -rf /var/lib/apt/lists/*
 
 # Cache dependencies first
 COPY pom.xml .
-COPY .mvn .mvn
-COPY mvnw .
-RUN chmod +x mvnw && ./mvnw dependency:go-offline -B
+RUN mvn dependency:go-offline -B
 
 # Build application
 COPY src ./src
-RUN ./mvnw package -DskipTests -B
+RUN mvn package -DskipTests -B
 
 # ─── Dev stage (hot-reload via volume mount) ────────────
 FROM eclipse-temurin:21-jre-jammy AS dev

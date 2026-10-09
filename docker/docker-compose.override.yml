@@ -29,6 +29,9 @@ services:
       - ../frontend/index.html:/app/index.html
       - ../frontend/vite.config.ts:/app/vite.config.ts
       - ../frontend/tsconfig.json:/app/tsconfig.json
+      - ../frontend/tsconfig.node.json:/app/tsconfig.node.json
     ports:
       - "3000:3000"
+    environment:
+      VITE_PROXY_TARGET: http://backend:8082
     command: ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

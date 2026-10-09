@@ -1,6 +1,8 @@
 package com.quini6.analytics.domain.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -29,7 +31,8 @@ public class Sorteo {
     @Column(name = "fuente_api", nullable = false)
     private String fuenteApi;
 
-    @Column(name = "raw_json", columnDefinition = "TEXT")
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "raw_json", columnDefinition = "jsonb")
     private String rawJson;
 
     @OneToMany(mappedBy = "sorteo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
